@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 // 네이버 개발자 센터 키 입력
-const CLIENT_ID = 'Ye2WXB6E8oGQ85mzkFyrd';       
-const CLIENT_SECRET = 'Qbai0yYq_H'; 
+const CLIENT_ID = '3';       
+const CLIENT_SECRET = '3'; 
 
 /**
  * 1. 공통 네이버 뉴스 호출 함수
