@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://nomination-bracelet-audio-projected.trycloudflare.com/api/:path*"
+    }
+  ]
+}

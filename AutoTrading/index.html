@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoTrading - 메인</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+    <header class="h-14 bg-slate-800 border-b border-slate-700 flex items-center px-6 shrink-0">
+        <button id="sidebarToggle" type="button" class="sidebar-toggle-button" aria-label="좌측 메뉴 접기" aria-expanded="true">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+        <a href="index.html" class="w-64 flex items-center space-x-2 shrink-0 hover:opacity-90 transition-opacity" aria-label="AutoTrading 홈으로 이동">
+            <div class="w-9 h-8 bg-emerald-500 rounded flex items-center justify-center text-slate-900 font-bold text-sm tracking-tight">AT</div>
+            <span class="font-bold text-xl tracking-tight text-white">AutoTrading <span class="text-xs text-emerald-400 ml-1 border border-emerald-400 px-1 py-0.5 rounded">BETA</span></span>
+        </a>
+
+        <div class="relative flex-1 max-w-sm mx-4">
+            <input id="searchBar" type="text" placeholder="종목명 또는 종목코드를 입력하세요"
+                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 pr-10 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <button id="searchClearButton" type="button" class="search-clear-button" aria-label="검색어 지우기" title="검색어 지우기">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+
+            <div id="searchModal" class="search-modal">
+                <p class="text-xs text-slate-400 mb-2 font-bold">검색 결과</p>
+                <div id="searchResults" class="search-results">
+                    <div class="search-empty">종목명 또는 종목코드를 입력하세요.</div>
+                </div>
+                <div class="mb-4">
+                    <p class="text-xs text-slate-400 mb-2 font-bold">최근 검색</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-700 rounded-full text-xs text-slate-300">KODEX 미국S&amp;P500</span>
+                        <span class="px-3 py-1 bg-slate-700 rounded-full text-xs text-slate-300">QQQ</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <p class="text-xs text-slate-400 mb-2 font-bold">인기 검색</p>
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm text-slate-300"><span>1 삼성전자</span><span class="text-blue-500">-0.92%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-6 ml-auto">
+            <button id="profileBtn" type="button" class="login-trigger" aria-haspopup="dialog" aria-controls="authModal">
+                <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+                <span>로그인</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="app-content flex flex-1 overflow-hidden">
+        <aside id="appSidebar" class="app-sidebar w-16 md:w-64 bg-slate-800 border-r border-slate-700 flex flex-col justify-between shrink-0 transition-all duration-300">
+            <nav class="p-4 space-y-2">
+                <button id="sidebarRankingNav" type="button" data-home-nav="ranking" class="home-sidebar-nav is-active w-full flex items-center space-x-3 text-emerald-400 bg-slate-700/50 p-3 rounded-lg transition-colors">
+                    <i class="fa-solid fa-chart-line text-lg w-6 text-center"></i>
+                    <span class="font-medium hidden md:block">트레이딩 대시보드</span>
+                </button>
+                <button id="sidebarNewsNav" type="button" data-home-nav="news" class="home-sidebar-nav w-full flex items-center space-x-3 text-slate-400 hover:text-white hover:bg-slate-700 p-3 rounded-lg transition-colors">
+                    <i class="fa-solid fa-newspaper text-lg w-6 text-center"></i>
+                    <span class="font-medium hidden md:block">주식 뉴스</span>
+                </button>
+                <a href="#" class="flex items-center space-x-3 text-slate-400 hover:text-white hover:bg-slate-700 p-3 rounded-lg transition-colors">
+                    <i class="fa-solid fa-diagram-project text-lg w-6 text-center"></i>
+                    <span class="font-medium hidden md:block">전략 설정</span>
+                </a>
+                <a href="asset.html" class="sidebar-nav-link flex items-center space-x-3 text-slate-400 hover:text-white hover:bg-slate-700 p-3 rounded-lg transition-colors">
+                    <i class="fa-solid fa-wallet text-lg w-6 text-center"></i>
+                    <span class="font-medium hidden md:block">자산 현황</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-slate-400 hover:text-white hover:bg-slate-700 p-3 rounded-lg transition-colors">
+                    <i class="fa-solid fa-clock-rotate-left text-lg w-6 text-center"></i>
+                    <span class="font-medium hidden md:block">매매 이력</span>
+                </a>
+            </nav>
+            <div class="p-4">
+                <a href="#" class="flex items-center space-x-3 text-slate-400 hover:text-white p-3 transition-colors">
+                    <i class="fa-solid fa-gear text-lg w-6 text-center"></i>
+                    <span class="font-medium hidden md:block">시스템 설정</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="app-main home-main flex-1 overflow-hidden">
+            <div id="homeRankingShell" class="home-ranking-shell" aria-label="홈 종목 랭킹">
+                <div class="home-ranking-tabs" role="tablist" aria-label="랭킹 종류">
+                    <div class="home-ranking-tabs-main">
+                        <button class="home-ranking-tab is-active" type="button" data-ranking-type="realtime">실시간조회</button>
+                        <button class="home-ranking-tab" type="button" data-ranking-type="movers">상승률/하락률</button>
+                        <button class="home-ranking-tab" type="button" data-ranking-type="volume">거래량 상위</button>
+                        <button class="home-ranking-tab" type="button" data-ranking-type="volumeSpike">거래량 급증</button>
+                        <button class="home-ranking-tab" type="button" data-ranking-type="domesticTradeTop">개인/기관 매매상위</button>
+                        <button class="home-ranking-tab" type="button" data-ranking-type="foreignInstitutionTop">외국인/기관 매매상위</button>
+                        <button class="home-ranking-tab" type="button" data-ranking-type="sector">섹터상위</button>
+                    </div>
+                    <div id="watchlistGroupTabs" class="home-watchlist-tabs" aria-label="관심 그룹"></div>
+                </div>
+
+                <div id="homeRankingView" class="home-ranking-panel">
+                    <div class="home-ranking-panel-head">
+                        <div>
+                            <h1 id="homeRankingTitle">실시간조회</h1>
+                            <p id="homeRankingSubtitle">키움 REST API ka00198 기준 상위 종목</p>
+                        </div>
+                        <div id="homeRankingColumns" class="home-ranking-columns" aria-hidden="true">
+                            <span>현재가</span>
+                            <span>등락률</span>
+                            <span>거래량</span>
+                        </div>
+                        <button id="homeRankingRefresh" class="home-ranking-refresh" type="button" title="새로고침" aria-label="랭킹 새로고침">
+                            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div id="watchlistAddBar" class="watchlist-add-bar is-hidden" aria-label="관심 종목 추가">
+                        <form id="watchlistAddForm" class="watchlist-add-form">
+                            <i class="fa-solid fa-magnifying-glass watchlist-add-icon" aria-hidden="true"></i>
+                            <input id="watchlistAddInput" type="text" placeholder="종목명 또는 종목코드 (예: 삼성전자, 005930)" autocomplete="off">
+                            <button type="submit" class="watchlist-add-submit">종목 추가</button>
+                        </form>
+                        <div id="watchlistAddResults" class="watchlist-add-results is-hidden"></div>
+                    </div>
+                    <div id="homeRankingStatus" class="home-ranking-status">랭킹을 불러오는 중...</div>
+                    <div id="homeRankingList" class="home-ranking-list"></div>
+                </div>
+            </div>
+
+            <section id="homeNewsView" class="home-news-panel is-hidden" aria-label="주식 뉴스">
+                <div class="home-ranking-panel-head home-news-panel-head">
+                    <div>
+                        <h1>주식 뉴스</h1>
+                        <p id="homeNewsSubtitle">국내 증시 관련 최신 뉴스</p>
+                    </div>
+                    <div class="home-news-filters" role="group" aria-label="뉴스 카테고리">
+                        <button class="home-news-filter is-active" type="button" data-news-query="">종합</button>
+                        <button class="home-news-filter" type="button" data-news-query="코스피 코스닥">국내증시</button>
+                        <button class="home-news-filter" type="button" data-news-query="미국 증시 나스닥">해외증시</button>
+                        <button class="home-news-filter" type="button" data-news-query="반도체 주식">섹터</button>
+                    </div>
+                    <button id="homeNewsRefresh" class="home-ranking-refresh home-news-refresh" type="button" title="뉴스 새로고침" aria-label="뉴스 새로고침">
+                        <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="home-news-toolbar">
+                    <form id="homeNewsSearchForm" class="home-news-search" role="search" aria-label="뉴스 검색">
+                        <i class="fa-solid fa-magnifying-glass home-news-search-icon" aria-hidden="true"></i>
+                        <input id="homeNewsSearch" type="search" placeholder="검색어 입력" autocomplete="off">
+                        <button id="homeNewsSearchClear" class="home-news-search-clear" type="button" aria-label="검색어 지우기" title="검색어 지우기">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+                        <button class="home-news-search-submit" type="submit">검색</button>
+                    </form>
+                </div>
+                <div id="homeNewsStatus" class="home-ranking-status">뉴스를 불러오는 중...</div>
+                <div id="homeNewsList" class="home-news-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <div id="watchlistGroupModal" class="watchlist-modal hidden" role="dialog" aria-modal="true" aria-labelledby="watchlistGroupModalTitle">
+        <div class="watchlist-modal-card">
+            <div class="watchlist-modal-head">
+                <h2 id="watchlistGroupModalTitle">관심 그룹 관리</h2>
+                <button id="watchlistGroupModalClose" type="button" class="watchlist-modal-close" aria-label="닫기">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="watchlist-modal-form">
+                <input id="watchlistGroupName" type="text" placeholder="그룹 이름 (예: 내 관심주)" autocomplete="off">
+                <button id="watchlistGroupAddBtn" type="button" class="watchlist-modal-add">+ 그룹 추가</button>
+            </div>
+
+            <div class="watchlist-modal-options">
+                <label class="watchlist-modal-field">
+                    <span>종류</span>
+                    <select id="watchlistGroupType"></select>
+                </label>
+                <label id="watchlistGroupTopField" class="watchlist-modal-field watchlist-modal-field-top">
+                    <span>Top</span>
+                    <input id="watchlistGroupTop" type="number" min="1" max="100" value="20">
+                    <span class="watchlist-modal-unit">개</span>
+                </label>
+            </div>
+
+            <div id="watchlistGroupList" class="watchlist-group-list"></div>
+        </div>
+    </div>
+
+    <script type="module" src="js/authModal.js"></script>
+    <script type="module" src="js/home.js"></script>
+</body>
+</html>
